@@ -1,34 +1,55 @@
 package com.accompany.stickyrice.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.util.Set;
-
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-
-
-@FieldDefaults (level = AccessLevel.PRIVATE)
 
 @Entity
 @Table(name = "role")
-
 public class Role {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
-    String roleId;
+    private Integer roleId;
 
-    @Column(name = "role_name")
-    String roleName;
+    @Column(name = "role_name", nullable = false, unique = true)
+    private String roleName;
 
-    //one to many
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
-    Set<UserAccount> userAccounts;
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<UserAccount> userAccounts;
 
-    //many to one
+    // Constructors
+    public Role() {
+    }
+
+    public Role(Integer roleId, String roleName, Set<UserAccount> userAccounts) {
+        this.roleId = roleId;
+        this.roleName = roleName;
+        this.userAccounts = userAccounts;
+    }
+
+    // Getters and Setters
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public Set<UserAccount> getUserAccounts() {
+        return userAccounts;
+    }
+
+    public void setUserAccounts(Set<UserAccount> userAccounts) {
+        this.userAccounts = userAccounts;
+    }
 }

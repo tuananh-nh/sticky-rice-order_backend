@@ -1,36 +1,67 @@
 package com.accompany.stickyrice.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.util.Set;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-
-@FieldDefaults (level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "order_status")
 public class Status {
 
     @Id
-    @Column(name = "status_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer statusId;
+    @Column(name = "status_id")
+    private Integer statusId;
 
-    @Column(name = "status_name")
-    String statusName;
+    @Column(name = "status_name", nullable = false)
+    private String statusName;
 
     @Column(name = "description")
-    String description;
+    private String description;
 
-    //one to many
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "status")
-    Set<Order> orders;
+    @OneToMany(mappedBy = "status", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Order> orders;
 
-    //many to one
+    // Constructors
+    public Status() {
+    }
 
+    public Status(Integer statusId, String statusName, String description, Set<Order> orders) {
+        this.statusId = statusId;
+        this.statusName = statusName;
+        this.description = description;
+        this.orders = orders;
+    }
+
+    // Getters and Setters
+    public Integer getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(Integer statusId) {
+        this.statusId = statusId;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
 }

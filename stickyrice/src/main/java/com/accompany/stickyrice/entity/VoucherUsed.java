@@ -1,36 +1,73 @@
 package com.accompany.stickyrice.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-
-@FieldDefaults (level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "voucher_used")
 public class VoucherUsed {
+
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "voucher_used_id")
-    Integer voucherUsedId;
+    private Integer voucherUsedId;
 
     @Column(name = "use_date")
-    LocalDateTime useDate;
+    private LocalDateTime useDate;
 
-    //one to many
-
-    //many to one
+    // many-to-one: mỗi lần dùng voucher đều gắn với 1 user
     @ManyToOne
     @JoinColumn(name = "user_id")
-    UserAccount userAccount;
+    private UserAccount userAccount;
 
+    // many-to-one: mỗi lần dùng voucher là một lần dùng 1 voucher cụ thể
     @ManyToOne
     @JoinColumn(name = "voucher_id")
-    Voucher voucher;
+    private Voucher voucher;
+
+    // Constructor không tham số
+    public VoucherUsed() {}
+
+    // Constructor đầy đủ
+    public VoucherUsed(Integer voucherUsedId, LocalDateTime useDate,
+                       UserAccount userAccount, Voucher voucher) {
+        this.voucherUsedId = voucherUsedId;
+        this.useDate = useDate;
+        this.userAccount = userAccount;
+        this.voucher = voucher;
+    }
+
+    // Getters and Setters
+
+    public Integer getVoucherUsedId() {
+        return voucherUsedId;
+    }
+
+    public void setVoucherUsedId(Integer voucherUsedId) {
+        this.voucherUsedId = voucherUsedId;
+    }
+
+    public LocalDateTime getUseDate() {
+        return useDate;
+    }
+
+    public void setUseDate(LocalDateTime useDate) {
+        this.useDate = useDate;
+    }
+
+    public UserAccount getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
+    }
+
+    public Voucher getVoucher() {
+        return voucher;
+    }
+
+    public void setVoucher(Voucher voucher) {
+        this.voucher = voucher;
+    }
 }

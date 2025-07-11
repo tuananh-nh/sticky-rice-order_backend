@@ -1,58 +1,149 @@
 package com.accompany.stickyrice.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-
-@FieldDefaults (level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "voucher")
-
 public class Voucher {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "voucher_id")
-    UUID voucherId;
+    private UUID voucherId;
 
-    @Column(name = "type")
-    Integer type;
+    @Column(name = "type", nullable = false)
+    private Integer type; // 0 = product, 1 = order
 
-    @Column(name = "date_start")
-    LocalDateTime dateStart;
+    @Column(name = "date_start", nullable = false)
+    private LocalDateTime dateStart;
 
     @Column(name = "date_end")
-    LocalDateTime dateEnd;
+    private LocalDateTime dateEnd;
 
-    @Column(name = "discount_percent")
-    Double discountPercent;
+    @Column(name = "discount_percent", precision = 5, scale = 2)
+    private BigDecimal discountPercent;
 
     @Column(name = "status")
-    Boolean status;
+    private Boolean status;
 
-    @Column(name = "description")
-    String description;
+    @Column(name = "description", length = 1000)
+    private String description;
 
-    //one to many
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "voucher")
-    Set<Order> orders;
+    // One voucher – many orders
+    @OneToMany(mappedBy = "voucher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Order> orders;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "voucher")
-    Set<VoucherUsed> voucherUseds;
+    // One voucher – many voucherUseds
+    @OneToMany(mappedBy = "voucher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<VoucherUsed> voucherUseds;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "voucher")
-    Set<Product> products;
+    // One voucher – many products
+    @OneToMany(mappedBy = "voucher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Product> products;
 
-    //many to one
+    // === Constructors ===
 
+    public Voucher() {
+    }
+
+    public Voucher(UUID voucherId, Integer type, LocalDateTime dateStart, LocalDateTime dateEnd,
+                   BigDecimal discountPercent, Boolean status, String description,
+                   Set<Order> orders, Set<VoucherUsed> voucherUseds, Set<Product> products) {
+        this.voucherId = voucherId;
+        this.type = type;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.discountPercent = discountPercent;
+        this.status = status;
+        this.description = description;
+        this.orders = orders;
+        this.voucherUseds = voucherUseds;
+        this.products = products;
+    }
+
+    // === Getters & Setters ===
+
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    public void setVoucherId(UUID voucherId) {
+        this.voucherId = voucherId;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public LocalDateTime getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(LocalDateTime dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public LocalDateTime getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(LocalDateTime dateEnd) {
+        this.dateEnd = dateEnd;
+    }
+
+    public BigDecimal getDiscountPercent() {
+        return discountPercent;
+    }
+
+    public void setDiscountPercent(BigDecimal discountPercent) {
+        this.discountPercent = discountPercent;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
+
+    public Set<VoucherUsed> getVoucherUseds() {
+        return voucherUseds;
+    }
+
+    public void setVoucherUseds(Set<VoucherUsed> voucherUseds) {
+        this.voucherUseds = voucherUseds;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
 }

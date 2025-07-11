@@ -1,42 +1,95 @@
 package com.accompany.stickyrice.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
 
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-
-@FieldDefaults (level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "order_detail")
 public class OrderDetail {
+
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_detail_id")
-    Integer orderDetailId;
+    private Integer orderDetailId;
 
     @Column(name = "quantity")
-    Integer quantity;
+    private Integer quantity;
 
     @Column(name = "net_price")
-    Double netPrice;
+    private Double netPrice;
 
     @Column(name = "total_price")
-    Double totalPrice;
+    private Double totalPrice;
 
-    //one to many
-
-
-    //many to one
+    // Many-to-One: Order
     @ManyToOne
     @JoinColumn(name = "order_id")
-    Order order;
+    private Order order;
 
+    // Many-to-One: Product
     @ManyToOne
     @JoinColumn(name = "product_id")
-    Product product;
+    private Product product;
+
+    // Constructors
+    public OrderDetail() {
+    }
+
+    public OrderDetail(Integer orderDetailId, Integer quantity, Double netPrice, Double totalPrice, Order order, Product product) {
+        this.orderDetailId = orderDetailId;
+        this.quantity = quantity;
+        this.netPrice = netPrice;
+        this.totalPrice = totalPrice;
+        this.order = order;
+        this.product = product;
+    }
+
+    // Getters and Setters
+
+    public Integer getOrderDetailId() {
+        return orderDetailId;
+    }
+
+    public void setOrderDetailId(Integer orderDetailId) {
+        this.orderDetailId = orderDetailId;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Double getNetPrice() {
+        return netPrice;
+    }
+
+    public void setNetPrice(Double netPrice) {
+        this.netPrice = netPrice;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }
