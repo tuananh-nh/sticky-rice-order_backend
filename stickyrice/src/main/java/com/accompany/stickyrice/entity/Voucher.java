@@ -25,7 +25,7 @@ public class Voucher {
     private LocalDateTime dateEnd;
 
     @Column(name = "discount_percent", precision = 5, scale = 2)
-    private BigDecimal discountPercent;
+    private Double discountPercent;
 
     @Column(name = "status")
     private Boolean status;
@@ -51,7 +51,7 @@ public class Voucher {
     }
 
     public Voucher(UUID voucherId, Integer type, LocalDateTime dateStart, LocalDateTime dateEnd,
-                   BigDecimal discountPercent, Boolean status, String description,
+                   Double discountPercent, Boolean status, String description,
                    Set<Order> orders, Set<VoucherUsed> voucherUseds, Set<Product> products) {
         this.voucherId = voucherId;
         this.type = type;
@@ -99,11 +99,11 @@ public class Voucher {
         this.dateEnd = dateEnd;
     }
 
-    public BigDecimal getDiscountPercent() {
+    public Double getDiscountPercent() {
         return discountPercent;
     }
 
-    public void setDiscountPercent(BigDecimal discountPercent) {
+    public void setDiscountPercent(Double discountPercent) {
         this.discountPercent = discountPercent;
     }
 

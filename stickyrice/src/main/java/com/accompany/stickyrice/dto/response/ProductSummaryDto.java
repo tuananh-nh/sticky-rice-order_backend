@@ -1,41 +1,29 @@
-package com.accompany.stickyrice.dto;
+package com.accompany.stickyrice.dto.response;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
-public class ProductDTO {
+public class ProductSummaryDto {
     private Long productId;
     private String productName;
     private String productImage;
     private String description;
     private Double price;
-    private Boolean isActive;
     private String slug;
-    private Long categoryId;
-    private String categoryName;
-    private UUID voucherId;
+    private Double discount;
 
-    // Constructor mặc định
-    public ProductDTO() {
+    public ProductSummaryDto() {
     }
 
-    // Constructor đầy đủ tham số
-    public ProductDTO(Long productId, String productName, String productImage,
-                      String description, Double price, Boolean isActive,
-                      String slug, Long categoryId, String categoryName, UUID voucherId) {
+    public ProductSummaryDto(Long productId, String productName, String productImage, String description, Double price, String slug, Double discount) {
         this.productId = productId;
         this.productName = productName;
         this.productImage = productImage;
         this.description = description;
         this.price = price;
-        this.isActive = isActive;
         this.slug = slug;
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
-        this.voucherId = voucherId;
+        this.discount = discount;
     }
 
-    // Getter và Setter
     public Long getProductId() {
         return productId;
     }
@@ -76,14 +64,6 @@ public class ProductDTO {
         this.price = price;
     }
 
-    public Boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(Boolean active) {
-        isActive = active;
-    }
-
     public String getSlug() {
         return slug;
     }
@@ -92,27 +72,11 @@ public class ProductDTO {
         this.slug = slug;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public Double getDiscount() {
+        return discount;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    public void setVoucherId(UUID voucherId) {
-        this.voucherId = voucherId;
+    public void setDiscount(Double discount) {
+        this.discount = discount;
     }
 }

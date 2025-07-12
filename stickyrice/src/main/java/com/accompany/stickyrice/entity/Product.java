@@ -1,7 +1,6 @@
 package com.accompany.stickyrice.entity;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity
@@ -23,7 +22,7 @@ public class Product {
     private String description;
 
     @Column(name = "price")
-    private BigDecimal price;
+    private Double price;
 
     @Column(name = "is_active")
     private Boolean isActive;
@@ -50,7 +49,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long productId, String productName, String productImage, String description, BigDecimal price, Boolean isActive, String slug, Set<Comment> comments, Set<OrderDetail> orderDetails, ProductCategory productCategory, Voucher voucher) {
+    public Product(Long productId, String productName, String productImage, String description, Double price, Boolean isActive, String slug, Set<Comment> comments, Set<OrderDetail> orderDetails, ProductCategory productCategory, Voucher voucher) {
         this.productId = productId;
         this.productName = productName;
         this.productImage = productImage;
@@ -98,11 +97,11 @@ public class Product {
         this.description = description;
     }
 
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
