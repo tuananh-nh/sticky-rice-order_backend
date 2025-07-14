@@ -1,7 +1,6 @@
 package com.accompany.stickyrice.service;
 
-import com.accompany.stickyrice.dto.ProductDTO;
+import com.accompany.stickyrice.entity.Product;
 
-public interface ProductService extends BaseService <ProductDTO, Long>{
-
+public interface ProductService extends BaseService <Product, Long>{
 }

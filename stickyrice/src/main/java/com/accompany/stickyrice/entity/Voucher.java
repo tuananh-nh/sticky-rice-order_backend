@@ -16,7 +16,7 @@ public class Voucher {
     private UUID voucherId;
 
     @Column(name = "type", nullable = false)
-    private Integer type; // 0 = product, 1 = order
+    private String type; // product, order
 
     @Column(name = "date_start", nullable = false)
     private LocalDateTime dateStart;
@@ -24,7 +24,6 @@ public class Voucher {
     @Column(name = "date_end")
     private LocalDateTime dateEnd;
 
-    @Column(name = "discount_percent", precision = 5, scale = 2)
     private Double discountPercent;
 
     @Column(name = "status")
@@ -50,7 +49,7 @@ public class Voucher {
     public Voucher() {
     }
 
-    public Voucher(UUID voucherId, Integer type, LocalDateTime dateStart, LocalDateTime dateEnd,
+    public Voucher(UUID voucherId, String type, LocalDateTime dateStart, LocalDateTime dateEnd,
                    Double discountPercent, Boolean status, String description,
                    Set<Order> orders, Set<VoucherUsed> voucherUseds, Set<Product> products) {
         this.voucherId = voucherId;
@@ -75,11 +74,11 @@ public class Voucher {
         this.voucherId = voucherId;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 

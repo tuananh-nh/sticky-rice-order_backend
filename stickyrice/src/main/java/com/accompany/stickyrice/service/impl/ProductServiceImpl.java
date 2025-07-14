@@ -1,45 +1,39 @@
 package com.accompany.stickyrice.service.impl;
 
-import com.accompany.stickyrice.dto.ProductDTO;
-import com.accompany.stickyrice.mapper.ProductMapper;
+import com.accompany.stickyrice.entity.Product;
 import com.accompany.stickyrice.repository.ProductRepository;
-import com.accompany.stickyrice.service.BaseService;
 import com.accompany.stickyrice.service.ProductService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final ProductMapper productMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
+    public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.productMapper = productMapper;
     }
 
     @Override
-    public ProductDTO create(ProductDTO dto) {
+    public Product create(Product dto) {
         return null;
     }
 
     @Override
-    public ProductDTO update(Long aLong, ProductDTO dto) {
+    public Product update(Long aLong, Product dto) {
         return null;
     }
 
     @Override
-    public ProductDTO findById(Long aLong) {
-        return null;
+    public Optional<Product> findById(Long aLong) {
+        return Optional.empty();
     }
 
     @Override
-    public List<ProductDTO> findAll() {
-
+    public List<Product> findAll() {
         return List.of();
     }
 
@@ -49,7 +43,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Boolean exitById(Long aLong) {
+    public Boolean existsById(Long aLong) {
         return null;
     }
+
+
 }

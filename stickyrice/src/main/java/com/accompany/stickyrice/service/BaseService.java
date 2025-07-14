@@ -1,6 +1,7 @@
 package com.accompany.stickyrice.service;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BaseService <T, ID> {
     //add item
@@ -10,7 +11,7 @@ public interface BaseService <T, ID> {
     T update (ID id, T dto);
 
     //find item with id
-    T findById (ID id);
+    Optional<T> findById (ID id);
 
     //list all
     List<T> findAll();
@@ -19,5 +20,5 @@ public interface BaseService <T, ID> {
     void deleteById (ID id);
 
     //item exists
-    Boolean exitById (ID id);
+    Boolean existsById (ID id);
 }

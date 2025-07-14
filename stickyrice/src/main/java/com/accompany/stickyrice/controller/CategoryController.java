@@ -21,7 +21,7 @@ public class CategoryController {
 
     @GetMapping("order/products")
     public ResponseEntity<List<CategorySummaryDto>> getCategoriesProducts(){
-        return ResponseEntity.ok(categoryService.findAll());
+        return ResponseEntity.ok(categoryService.getAllCategoriesWithProducts());
     }
 
 
