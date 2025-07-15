@@ -57,6 +57,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Optional<CategorySummaryDto> getCateWithProductsBySlug(String slug) {
+        return categoryRepository.getCateWithProductsBySlug(slug)
+                .map(categorySummaryMapper::toDto);
+    }
+
+    @Override
     public ProductCategory create(ProductCategory dto) {
         return null;
     }

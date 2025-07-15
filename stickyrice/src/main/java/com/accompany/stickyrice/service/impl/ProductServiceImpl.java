@@ -1,6 +1,8 @@
 package com.accompany.stickyrice.service.impl;
 
+import com.accompany.stickyrice.dto.response.ProductListItemDto;
 import com.accompany.stickyrice.entity.Product;
+import com.accompany.stickyrice.mapper.ProductListItemMapper;
 import com.accompany.stickyrice.repository.ProductRepository;
 import com.accompany.stickyrice.service.ProductService;
 import org.springframework.stereotype.Service;
@@ -48,4 +50,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    @Override
+    public List<ProductListItemDto> getProductListItem() {
+        return productRepository.findAll()
+                .stream()
+                .map(ProductListItemMapper::toDto)
+                .toList();
+    }
 }
