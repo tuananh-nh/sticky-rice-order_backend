@@ -65,7 +65,7 @@ public class ProductListItemDto {
         this.slug = slug;
     }
 
-    public Boolean getActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
