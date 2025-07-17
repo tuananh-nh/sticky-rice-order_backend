@@ -10,12 +10,19 @@ import java.util.stream.Collectors;
 
 @Component
 public class CategorySummaryMapper {
+
+    private final ProductMapper productMapper;
+
+    public CategorySummaryMapper(ProductMapper productMapper) {
+        this.productMapper = productMapper;
+    }
+
     public CategorySummaryDto toDto(ProductCategory productCategory) {
         if (productCategory == null) return null;
 
         Set<ProductSummaryDto> productDtos = productCategory.getProducts()
                 .stream()
-                .map(ProductSummaryMapper::toDto)
+                .map(productMapper::toSummaryDto)
                 .collect(Collectors.toSet());
 
         return new CategorySummaryDto(
