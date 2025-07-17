@@ -1,7 +1,6 @@
 package com.accompany.stickyrice.service.impl;
 
-import com.accompany.stickyrice.dto.request.CreateProductDto;
-import com.accompany.stickyrice.dto.response.CreateProductResDto;
+import com.accompany.stickyrice.dto.response.ProductItemDto;
 import com.accompany.stickyrice.dto.response.ProductListItemDto;
 import com.accompany.stickyrice.dto.response.PaginatedResponseDto;
 import com.accompany.stickyrice.entity.Product;
@@ -68,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(0, 5);
         return productRepository.findAllProducts(pageable)
                 .stream()
-                .map(productMapper::toListItemDto)
+                .map(productMapper::toProductListItemDto)
                 .toList();
     }
 
@@ -80,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductListItemDto> dtos = productPage.getContent()
                 .stream()
-                .map(productMapper::toListItemDto)
+                .map(productMapper::toProductListItemDto)
                 .toList();
 
         return new PaginatedResponseDto<>(
@@ -93,13 +92,13 @@ public class ProductServiceImpl implements ProductService {
 
     // ✅ Tạo sản phẩm mới — đã loại bỏ voucher
     @Override
-    public CreateProductResDto createProduct(CreateProductDto dto) {
+    public ProductItemDto createProduct(com.accompany.stickyrice.dto.request.CreateProductDto dto) {
         ProductCategory category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy danh mục sản phẩm"));
 
         Product product = productMapper.toEntity(dto, category);
         productRepository.save(product);
 
-        return productMapper.toDto(product);
+        return productMapper.toProductItemDto(product);
     }
 }

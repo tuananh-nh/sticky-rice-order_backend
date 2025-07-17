@@ -1,7 +1,6 @@
 package com.accompany.stickyrice.controller;
 
-import com.accompany.stickyrice.dto.request.CreateProductDto;
-import com.accompany.stickyrice.dto.response.CreateProductResDto;
+import com.accompany.stickyrice.dto.response.ProductItemDto;
 import com.accompany.stickyrice.dto.response.PaginatedResponseDto;
 import com.accompany.stickyrice.dto.response.ProductListItemDto;
 import com.accompany.stickyrice.service.ProductService;
@@ -67,8 +66,8 @@ public class ProductController {
 
     // ✅ API tạo sản phẩm (chỉ nhận JSON - không kèm file)
     @PostMapping
-    public ResponseEntity<CreateProductResDto> createProduct(@RequestBody CreateProductDto dto) {
-        CreateProductResDto response = productService.createProduct(dto);
+    public ResponseEntity<ProductItemDto> createProduct(@RequestBody com.accompany.stickyrice.dto.request.CreateProductDto dto) {
+        ProductItemDto response = productService.createProduct(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

@@ -1,7 +1,7 @@
 package com.accompany.stickyrice.mapper;
 
-import com.accompany.stickyrice.dto.response.CategorySummaryDto;
-import com.accompany.stickyrice.dto.response.ProductSummaryDto;
+import com.accompany.stickyrice.dto.response.CategoryListItemOrderDto;
+import com.accompany.stickyrice.dto.response.ProductListItemOrderDto;
 import com.accompany.stickyrice.entity.ProductCategory;
 import org.springframework.stereotype.Component;
 
@@ -9,23 +9,23 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public class CategorySummaryMapper {
+public class CategoryMapper {
 
     private final ProductMapper productMapper;
 
-    public CategorySummaryMapper(ProductMapper productMapper) {
+    public CategoryMapper(ProductMapper productMapper) {
         this.productMapper = productMapper;
     }
 
-    public CategorySummaryDto toDto(ProductCategory productCategory) {
+    public CategoryListItemOrderDto toCategoryListItemOrderDto(ProductCategory productCategory) {
         if (productCategory == null) return null;
 
-        Set<ProductSummaryDto> productDtos = productCategory.getProducts()
+        Set<ProductListItemOrderDto> productDtos = productCategory.getProducts()
                 .stream()
-                .map(productMapper::toSummaryDto)
+                .map(productMapper::toProductListItemOrderDto)
                 .collect(Collectors.toSet());
 
-        return new CategorySummaryDto(
+        return new CategoryListItemOrderDto(
                 productCategory.getCategoryName(),
                 productCategory.getSlug(),
                 productDtos

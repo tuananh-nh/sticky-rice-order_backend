@@ -1,6 +1,6 @@
 package com.accompany.stickyrice.dto.response;
 
-public class CreateProductResDto {
+public class ProductItemDto {
     private Long productId;
     private String productName;
     private String slug;
@@ -11,10 +11,10 @@ public class CreateProductResDto {
     private Long categoryId;
     private String categoryName;
 
-    public CreateProductResDto() {
+    public ProductItemDto() {
     }
 
-    public CreateProductResDto(String productImage, Long productId, String productName, String slug, String description, Double price, Boolean isActive, Long categoryId, String categoryName) {
+    public ProductItemDto(String productImage, Long productId, String productName, String slug, String description, Double price, Boolean isActive, Long categoryId, String categoryName) {
         this.productImage = productImage;
         this.productId = productId;
         this.productName = productName;

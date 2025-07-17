@@ -1,9 +1,9 @@
 package com.accompany.stickyrice.mapper;
 
 import com.accompany.stickyrice.dto.request.CreateProductDto;
-import com.accompany.stickyrice.dto.response.CreateProductResDto;
+import com.accompany.stickyrice.dto.response.ProductItemDto;
 import com.accompany.stickyrice.dto.response.ProductListItemDto;
-import com.accompany.stickyrice.dto.response.ProductSummaryDto;
+import com.accompany.stickyrice.dto.response.ProductListItemOrderDto;
 import com.accompany.stickyrice.entity.Product;
 import com.accompany.stickyrice.entity.ProductCategory;
 import com.accompany.stickyrice.entity.Voucher;
@@ -28,8 +28,8 @@ public class ProductMapper {
     }
 
     // 🔵 Map từ Entity → DTO chi tiết sản phẩm (chuẩn hóa lại dùng ProductResponseDto)
-    public CreateProductResDto toDto(Product product) {
-        CreateProductResDto dto = new CreateProductResDto();
+    public ProductItemDto toProductItemDto(Product product) {
+        ProductItemDto dto = new ProductItemDto();
         dto.setProductId(product.getProductId());
         dto.setProductName(product.getProductName());
         dto.setSlug(product.getSlug());
@@ -43,7 +43,7 @@ public class ProductMapper {
     }
 
     // 🟡 Map từ Entity → DTO cho danh sách (list view)
-    public ProductListItemDto toListItemDto(Product product) {
+    public ProductListItemDto toProductListItemDto(Product product) {
         return new ProductListItemDto(
                 product.getProductId(),
                 product.getProductName(),
@@ -57,13 +57,13 @@ public class ProductMapper {
     }
 
     // 🟣 Map từ Entity → DTO tóm tắt sản phẩm + tính giá giảm nếu có
-    public ProductSummaryDto toSummaryDto(Product product) {
+    public ProductListItemOrderDto toProductListItemOrderDto(Product product) {
         Double discountedPrice = Optional.ofNullable(product.getVoucher())
                 .map(Voucher::getDiscountPercent)
                 .map(discount -> product.getPrice() * (1 - discount))
                 .orElse(null);
 
-        return new ProductSummaryDto(
+        return new ProductListItemOrderDto(
                 product.getProductId(),
                 product.getProductName(),
                 product.getProductImage(),

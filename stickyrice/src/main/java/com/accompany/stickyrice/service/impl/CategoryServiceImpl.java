@@ -1,9 +1,9 @@
 package com.accompany.stickyrice.service.impl;
 
-import com.accompany.stickyrice.dto.response.CategorySummaryDto;
+import com.accompany.stickyrice.dto.response.CategoryListItemOrderDto;
 import com.accompany.stickyrice.entity.ProductCategory;
 import com.accompany.stickyrice.entity.Voucher;
-import com.accompany.stickyrice.mapper.CategorySummaryMapper;
+import com.accompany.stickyrice.mapper.CategoryMapper;
 import com.accompany.stickyrice.repository.CategoryRepository;
 import com.accompany.stickyrice.service.CategoryService;
 import jakarta.transaction.Transactional;
@@ -12,22 +12,21 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final CategorySummaryMapper categorySummaryMapper;
+    private final CategoryMapper categoryMapper;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategorySummaryMapper categorySummaryMapper) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryMapper categoryMapper) {
         this.categoryRepository = categoryRepository;
-        this.categorySummaryMapper = categorySummaryMapper;
+        this.categoryMapper = categoryMapper;
     }
 
     @Override
     @Transactional
-    public List<CategorySummaryDto> getAllCategoriesWithProducts() {
+    public List<CategoryListItemOrderDto> getAllCategoriesWithProducts() {
 
         List<ProductCategory> categories = categoryRepository.getAllCategoriesWithProducts();
         LocalDateTime nowadays = LocalDateTime.now();
@@ -52,14 +51,14 @@ public class CategoryServiceImpl implements CategoryService {
 
         categoryRepository.saveAll(categories);
         return categories.stream()
-                         .map(categorySummaryMapper::toDto)
+                         .map(categoryMapper::toCategoryListItemOrderDto)
                          .toList();
     }
 
     @Override
-    public Optional<CategorySummaryDto> getCateWithProductsBySlug(String slug) {
+    public Optional<CategoryListItemOrderDto> getCateWithProductsBySlug(String slug) {
         return categoryRepository.getCateWithProductsBySlug(slug)
-                .map(categorySummaryMapper::toDto);
+                .map(categoryMapper::toCategoryListItemOrderDto);
     }
 
     @Override
