@@ -1,5 +1,6 @@
 package com.accompany.stickyrice.service.impl;
 
+import com.accompany.stickyrice.dto.request.EditProductDto;
 import com.accompany.stickyrice.dto.response.ProductItemDto;
 import com.accompany.stickyrice.dto.response.ProductListItemDto;
 import com.accompany.stickyrice.dto.response.PaginatedResponseDto;
@@ -13,9 +14,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -90,6 +99,13 @@ public class ProductServiceImpl implements ProductService {
         );
     }
 
+
+    public Optional<EditProductDto> getProductItem(Long productId) {
+        return productRepository.findById(productId)
+                .map(productMapper::toEditProductDto);
+    }
+
+
     // ✅ Tạo sản phẩm mới — đã loại bỏ voucher
     @Override
     public ProductItemDto createProduct(com.accompany.stickyrice.dto.request.CreateProductDto dto) {
@@ -101,4 +117,107 @@ public class ProductServiceImpl implements ProductService {
 
         return productMapper.toProductItemDto(product);
     }
+
+    @Override
+    public Product editProductByDto(Long id, EditProductDto dto) {
+        Product existing = productRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Sản phẩm không tồn tại"));
+
+        // Lấy category để set lại
+        ProductCategory category = categoryRepository.findById(dto.getCategoryId())
+                .orElseThrow(() -> new IllegalArgumentException("Danh mục không tồn tại"));
+
+        // Gán dữ liệu từ DTO vào Entity
+        existing.setProductName(dto.getProductName());
+        existing.setProductImage(dto.getProductImage());
+        existing.setDescription(dto.getDescription());
+        existing.setPrice(dto.getPrice());
+        existing.setIsActive(dto.getActive());
+        existing.setSlug(dto.getSlug());
+        existing.setProductCategory(category);
+
+        return productRepository.save(existing);
+    }
+
+    @Override
+    public void updateProduct(Long id, String productName, String slug, Double price, Long categoryId,
+                              String description, Boolean isActive, MultipartFile imageFile) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm"));
+
+        product.setProductName(productName);
+        product.setSlug(slug);
+        product.setPrice(price);
+
+        // ✅ sửa ở đây
+        ProductCategory category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Danh mục không tồn tại"));
+        product.setProductCategory(category);
+
+        product.setDescription(description);
+        product.setIsActive(isActive);
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                String fileName = saveFile(imageFile);
+                product.setProductImage(fileName);
+            } catch (IOException e) {
+                throw new RuntimeException("Không thể lưu ảnh: " + e.getMessage());
+            }
+        }
+
+        productRepository.save(product);
+    }
+
+
+    @Override
+    public String uploadImage(MultipartFile file) {
+        try {
+            String uploadDir = System.getProperty("user.dir") + "/uploads/images/";
+            Path uploadPath = Paths.get(uploadDir);
+
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+            String fileExt = "";
+            int dotIndex = originalFilename.lastIndexOf('.');
+            if (dotIndex > 0) {
+                fileExt = originalFilename.substring(dotIndex);
+            }
+            String newFileName = UUID.randomUUID() + fileExt;
+
+            Path filePath = uploadPath.resolve(newFileName);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            return newFileName;
+
+        } catch (IOException e) {
+            throw new RuntimeException("Upload image failed: " + e.getMessage());
+        }
+    }
+
+    private String saveFile(MultipartFile file) throws IOException {
+        Path uploadPath = Paths.get(System.getProperty("user.dir") + "/uploads/images/");
+
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileExt = "";
+        int dotIndex = originalFilename.lastIndexOf('.');
+        if (dotIndex > 0) {
+            fileExt = originalFilename.substring(dotIndex);
+        }
+        String newFileName = UUID.randomUUID() + fileExt;
+
+        Path filePath = uploadPath.resolve(newFileName);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        return newFileName;
+    }
+
+
 }

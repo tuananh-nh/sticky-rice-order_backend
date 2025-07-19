@@ -1,6 +1,7 @@
 package com.accompany.stickyrice.mapper;
 
 import com.accompany.stickyrice.dto.request.CreateProductDto;
+import com.accompany.stickyrice.dto.request.EditProductDto;
 import com.accompany.stickyrice.dto.response.ProductItemDto;
 import com.accompany.stickyrice.dto.response.ProductListItemDto;
 import com.accompany.stickyrice.dto.response.ProductListItemOrderDto;
@@ -55,6 +56,22 @@ public class ProductMapper {
                 product.getProductCategory().getCategoryName()
         );
     }
+
+    public EditProductDto toEditProductDto(Product product) {
+        return new EditProductDto(
+                product.getProductId(),
+                product.getProductImage(),
+                product.getProductName(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getIsActive(),
+                product.getSlug(),
+                product.getProductCategory().getCategoryId(),
+                product.getProductCategory().getCategoryName()
+        );
+    }
+
+
 
     // 🟣 Map từ Entity → DTO tóm tắt sản phẩm + tính giá giảm nếu có
     public ProductListItemOrderDto toProductListItemOrderDto(Product product) {
