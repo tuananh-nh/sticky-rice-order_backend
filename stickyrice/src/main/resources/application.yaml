@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=stickyrice;encrypt=false
+    url: jdbc:sqlserver://localhost:1433;databaseName=stickyrice0;encrypt=false
     username: sa
-    password: '0520'
+    password: huuy
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 
   jpa:
