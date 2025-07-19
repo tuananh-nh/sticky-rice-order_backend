@@ -1,25 +1,26 @@
 package com.accompany.stickyrice.dto.response;
 
-public class ProductListItemDto {
+public class ProductItemDto {
     private Long productId;
     private String productName;
-    private String productImage;
-    private Double price;
     private String slug;
+    private String description;
+    private Double price;
+    private String productImage;
     private Boolean isActive;
     private Long categoryId;
     private String categoryName;
 
-    public ProductListItemDto() {
-
+    public ProductItemDto() {
     }
 
-    public ProductListItemDto(Long productId, String productName, String productImage, Double price, String slug, Boolean isActive, Long categoryId, String categoryName) {
+    public ProductItemDto(String productImage, Long productId, String productName, String slug, String description, Double price, Boolean isActive, Long categoryId, String categoryName) {
+        this.productImage = productImage;
         this.productId = productId;
         this.productName = productName;
-        this.productImage = productImage;
-        this.price = price;
         this.slug = slug;
+        this.description = description;
+        this.price = price;
         this.isActive = isActive;
         this.categoryId = categoryId;
         this.categoryName = categoryName;
@@ -41,12 +42,20 @@ public class ProductListItemDto {
         this.productName = productName;
     }
 
-    public String getProductImage() {
-        return productImage;
+    public String getSlug() {
+        return slug;
     }
 
-    public void setProductImage(String productImage) {
-        this.productImage = productImage;
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Double getPrice() {
@@ -57,20 +66,20 @@ public class ProductListItemDto {
         this.price = price;
     }
 
-    public String getSlug() {
-        return slug;
+    public String getProductImage() {
+        return productImage;
     }
 
-    public void setSlug(String slug) {
-        this.slug = slug;
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
     }
 
     public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(Boolean active) {
-        isActive = active;
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 
     public Long getCategoryId() {

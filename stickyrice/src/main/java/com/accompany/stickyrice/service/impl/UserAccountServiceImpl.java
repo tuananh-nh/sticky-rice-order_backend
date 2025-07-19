@@ -1,5 +1,6 @@
 package com.accompany.stickyrice.service.impl;
 
+<<<<<<< HEAD
 import com.accompany.stickyrice.dto.request.EditUserDto;
 import com.accompany.stickyrice.dto.response.UserAccountListDto;
 import com.accompany.stickyrice.entity.Role;
@@ -108,5 +109,29 @@ public class UserAccountServiceImpl implements UserAccountService {
         UserAccountListMapper.updateFromEditDto(user, dto, role);
 
         userRepository.save(user);
+=======
+import com.accompany.stickyrice.entity.UserAccount;
+import com.accompany.stickyrice.repository.UserAccountRepository;
+import com.accompany.stickyrice.service.UserAccountService;
+
+import java.util.Optional;
+
+public class UserAccountServiceImpl implements UserAccountService {
+
+    private final UserAccountRepository userAccountRepository;
+
+    public UserAccountServiceImpl(UserAccountRepository userAccountRepository) {
+        this.userAccountRepository = userAccountRepository;
+    }
+
+    @Override
+    public Optional<UserAccount> findByEmail(String email) {
+        return userAccountRepository.findByEmail(email);
+    }
+
+    @Override
+    public UserAccount create(UserAccount userAccount) {
+        return userAccountRepository.save(userAccount);
+>>>>>>> 7fbcc85325be2b453674959b659dff9ac81a85c0
     }
 }

@@ -1,5 +1,6 @@
 package com.accompany.stickyrice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.Set;
 
@@ -19,6 +20,7 @@ public class ProductCategory {
     private String slug;
 
     @OneToMany(mappedBy = "productCategory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Product> products;
 
     // === Constructors ===

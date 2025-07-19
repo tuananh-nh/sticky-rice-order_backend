@@ -1,8 +1,6 @@
 package com.accompany.stickyrice.dto.response;
 
-import java.util.UUID;
-
-public class ProductSummaryDto {
+public class ProductListItemOrderDto {
     private Long productId;
     private String productName;
     private String productImage;
@@ -11,10 +9,10 @@ public class ProductSummaryDto {
     private String slug;
     private Double discount;
 
-    public ProductSummaryDto() {
+    public ProductListItemOrderDto() {
     }
 
-    public ProductSummaryDto(Long productId, String productName, String productImage, String description, Double price, String slug, Double discount) {
+    public ProductListItemOrderDto(Long productId, String productName, String productImage, String description, Double price, String slug, Double discount) {
         this.productId = productId;
         this.productName = productName;
         this.productImage = productImage;

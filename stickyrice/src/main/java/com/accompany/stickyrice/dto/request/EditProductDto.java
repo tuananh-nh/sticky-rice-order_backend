@@ -1,26 +1,27 @@
-package com.accompany.stickyrice.dto.response;
+package com.accompany.stickyrice.dto.request;
 
-public class ProductListItemDto {
+public class EditProductDto {
     private Long productId;
-    private String productName;
     private String productImage;
+    private String productName;
+    private String description;
     private Double price;
-    private String slug;
     private Boolean isActive;
+    private String slug;
     private Long categoryId;
     private String categoryName;
 
-    public ProductListItemDto() {
-
+    public EditProductDto() {
     }
 
-    public ProductListItemDto(Long productId, String productName, String productImage, Double price, String slug, Boolean isActive, Long categoryId, String categoryName) {
+    public EditProductDto(Long productId, String productImage, String productName, String description, Double price, Boolean isActive, String slug, Long categoryId, String categoryName) {
         this.productId = productId;
-        this.productName = productName;
         this.productImage = productImage;
+        this.productName = productName;
+        this.description = description;
         this.price = price;
-        this.slug = slug;
         this.isActive = isActive;
+        this.slug = slug;
         this.categoryId = categoryId;
         this.categoryName = categoryName;
     }
@@ -33,6 +34,14 @@ public class ProductListItemDto {
         this.productId = productId;
     }
 
+    public String getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
+    }
+
     public String getProductName() {
         return productName;
     }
@@ -41,12 +50,12 @@ public class ProductListItemDto {
         this.productName = productName;
     }
 
-    public String getProductImage() {
-        return productImage;
+    public String getDescription() {
+        return description;
     }
 
-    public void setProductImage(String productImage) {
-        this.productImage = productImage;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Double getPrice() {
@@ -57,20 +66,20 @@ public class ProductListItemDto {
         this.price = price;
     }
 
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
     public String getSlug() {
         return slug;
     }
 
     public void setSlug(String slug) {
         this.slug = slug;
-    }
-
-    public Boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
     }
 
     public Long getCategoryId() {
