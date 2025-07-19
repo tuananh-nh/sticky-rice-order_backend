@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:sqlserver://localhost:1433;databaseName=stickyrice;encrypt=false
     username: sa
-    password: '0520'
+    password: '123456'
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 
   jpa:
