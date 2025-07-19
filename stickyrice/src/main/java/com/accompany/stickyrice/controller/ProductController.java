@@ -1,10 +1,14 @@
 package com.accompany.stickyrice.controller;
 
-import com.accompany.stickyrice.dto.response.ProductItemDto;
+import com.accompany.stickyrice.dto.request.CreateProductDto;
+import com.accompany.stickyrice.dto.request.EditProductDto;
 import com.accompany.stickyrice.dto.response.PaginatedResponseDto;
+import com.accompany.stickyrice.dto.response.ProductItemDto;
 import com.accompany.stickyrice.dto.response.ProductListItemDto;
+import com.accompany.stickyrice.entity.Product;
 import com.accompany.stickyrice.service.ProductService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -25,7 +30,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    // ✅ API phân trang danh sách sản phẩm
+    // ✅ Phân trang danh sách sản phẩm
     @GetMapping
     public ResponseEntity<PaginatedResponseDto<ProductListItemDto>> getProducts(
             @RequestParam(defaultValue = "0") int page,
@@ -35,12 +40,11 @@ public class ProductController {
         return ResponseEntity.ok(result);
     }
 
-    // ✅ API upload ảnh riêng
+    // ✅ Upload ảnh
     @PostMapping("/upload-image")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
         try {
             Path uploadPath = Paths.get(UPLOAD_DIR);
-            System.out.println("Upload path absolute: " + uploadPath.toAbsolutePath());
 
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
@@ -59,15 +63,74 @@ public class ProductController {
 
             return ResponseEntity.ok(newFileName);
         } catch (IOException e) {
-            e.printStackTrace(); // In lỗi chi tiết ra console
+            e.printStackTrace();
             return ResponseEntity.status(500).body("Lỗi upload ảnh: " + e.getMessage());
         }
     }
 
-    // ✅ API tạo sản phẩm (chỉ nhận JSON - không kèm file)
+    // ✅ Tạo sản phẩm
     @PostMapping
-    public ResponseEntity<ProductItemDto> createProduct(@RequestBody com.accompany.stickyrice.dto.request.CreateProductDto dto) {
+    public ResponseEntity<ProductItemDto> createProduct(@RequestBody CreateProductDto dto) {
         ProductItemDto response = productService.createProduct(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    // ✅ Lấy sản phẩm theo ID
+    @GetMapping("/{id}")
+    public ResponseEntity<EditProductDto> getProductById(@PathVariable Long id) {
+        Optional<EditProductDto> editProductDto = productService.getProductItem(id);
+
+        return editProductDto
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
+
+    // ✅ Cập nhật sản phẩm
+//    @PutMapping("/{id}")
+//    public ResponseEntity<String> updateProduct(@PathVariable Long id, @RequestBody EditProductDto dto) {
+//        try {
+//            Product updated = productService.editProductByDto(id, dto);
+//            return ResponseEntity.ok("Cập nhật sản phẩm thành công");
+//        } catch (IllegalArgumentException e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        } catch (Exception e) {
+//            return ResponseEntity.internalServerError().body("Lỗi khi cập nhật sản phẩm");
+//        }
+//    }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> updateProduct(
+            @PathVariable Long id,
+            @RequestParam("productName") String productName,
+            @RequestParam("slug") String slug,
+            @RequestParam("price") Double price,
+            @RequestParam("categoryId") Long categoryId,
+            @RequestParam("description") String description,
+            @RequestParam("isActive") Boolean isActive,
+            @RequestParam(value = "image", required = false) MultipartFile imageFile
+    ) {
+        try {
+            productService.updateProduct(id, productName, slug, price, categoryId, description, isActive, imageFile);
+            return ResponseEntity.ok("Cập nhật sản phẩm thành công");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Cập nhật thất bại: " + e.getMessage());
+        }
+    }
+
+
+
+    // ✅ Xóa sản phẩm
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
+        try {
+            productService.deleteById(id);
+            return ResponseEntity.ok("Xóa sản phẩm thành công");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Lỗi khi xóa sản phẩm");
+        }
     }
 }

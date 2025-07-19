@@ -1,6 +1,7 @@
 package com.accompany.stickyrice.mapper;
 
 import com.accompany.stickyrice.dto.request.CreateProductDto;
+import com.accompany.stickyrice.dto.request.EditProductDto;
 import com.accompany.stickyrice.dto.response.ProductItemDto;
 import com.accompany.stickyrice.dto.response.ProductListItemDto;
 import com.accompany.stickyrice.dto.response.ProductListItemOrderDto;
@@ -9,6 +10,7 @@ import com.accompany.stickyrice.entity.ProductCategory;
 import com.accompany.stickyrice.entity.Voucher;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
 import java.util.Optional;
 
 @Component
@@ -51,6 +53,20 @@ public class ProductMapper {
                 product.getPrice(),
                 product.getSlug(),
                 product.getIsActive(),
+                product.getProductCategory().getCategoryId(),
+                product.getProductCategory().getCategoryName()
+        );
+    }
+
+    public EditProductDto toEditProductDto(Product product) {
+        return new EditProductDto(
+                product.getProductId(),
+                product.getProductImage(),
+                product.getProductName(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getIsActive(),
+                product.getSlug(),
                 product.getProductCategory().getCategoryId(),
                 product.getProductCategory().getCategoryName()
         );
